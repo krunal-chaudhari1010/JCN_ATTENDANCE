@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, TextInput, Button, Text, StyleSheet, Alert } from "react-native";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const RegisterForm = ({ navigation }) => {
+const UpdateScreen = ({ navigation }) => {
+  useEffect(() => {
+    AsyncStorage.getItem("token");
+  }, []);
+
   const [formdata, setFormdata] = useState({
     UserId: "",
     Name: "",
-    Email: "",
     Password: "",
   });
 
@@ -18,30 +22,30 @@ const RegisterForm = ({ navigation }) => {
   };
 
   const handleRegister = async () => {
-    const { UserId, Name, Email, Password } = formdata;
+    const { UserId, Name, Password } = formdata;
 
-    if (!UserId || !Name || !Email || !Password) {
+    if (!UserId || !Name || !Password) {
       Alert.alert("Error", "Please fill all fields");
       return;
     }
 
     try {
-      const response = await axios.post(
+      const response = await axios.put(
         "https://japps.jcntechnology.in/express/auth/user",
         formdata
       );
 
       if (response.status === 200 || response.status === 201) {
-        Alert.alert("Success", "Registration completed!", [
+        Alert.alert("Success", "Profile Update Successfully!", [
           {
             text: "OK",
-            onPress: () => navigation.navigate("Login")
-          }
+            onPress: () => navigation.navigate("Login"),
+          },
         ]);
+
         setFormdata({
           UserId: "",
           Name: "",
-          Email: "",
           Password: "",
         });
       } else {
@@ -70,13 +74,7 @@ const RegisterForm = ({ navigation }) => {
         onChangeText={(text) => handleChange("Name", text)}
         style={styles.input}
       />
-      <TextInput
-        placeholder="Email"
-        value={formdata.Email}
-        onChangeText={(text) => handleChange("Email", text)}
-        style={styles.input}
-        keyboardType="email-address"
-      />
+
       <TextInput
         placeholder="Password"
         value={formdata.Password}
@@ -84,14 +82,7 @@ const RegisterForm = ({ navigation }) => {
         style={styles.input}
         secureTextEntry
       />
-      <Button title="Register" onPress={handleRegister} />
-
-      <View>
-        <Text>
-          Already have an account ?{" "}
-          <Text onPress={() => navigation.navigate("Login")}>Login</Text>
-        </Text>
-      </View>
+      <Button title="Update" onPress={handleRegister} />
     </View>
   );
 };
@@ -110,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisterForm;
+export default UpdateScreen;
