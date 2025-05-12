@@ -6,7 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import AttendanceScreen from "../tabs/AttendanceScreen";
 import ExpenseScreen from "../tabs/ExpenseScreen";
 import TasksScreen from "../tabs/MyTasksScreen";
-import ReportScreen from "../tabs/ReportScreen";
+import Summary from "../tabs/Summary";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
@@ -40,7 +40,7 @@ const BottomTabs = () => {
       <Tab.Screen name="Attendance" component={AttendanceScreen} />
       <Tab.Screen name="Expense" component={ExpenseScreen} />
       <Tab.Screen name="MyTasks" component={TasksScreen} />
-      <Tab.Screen name="Report" component={ReportScreen} />
+      <Tab.Screen name="Report" component={Summary} />
     </Tab.Navigator>
   );
 };
